@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Feedback form</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0"
+          crossorigin="anonymous"></script>
+</head>
+<body class="text-center">
+
+<div class="feedback-table-area">
+  <table class="feedback-table" aria-label="Feedback table">
+    <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Name</th>
+      <th scope="col">Email</th>
+      <th scope="col">Category</th>
+      <th scope="col">Text</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <th scope="row">1</th>
+      <td>Otto Lakk</td>
+      <td>test@fujitsu.ee</td>
+      <td>Patients portal, Microsoft SharePoint</td>
+      <td>Feedback text</td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="form-feedback">
+  <form>
+    <h1 class="h3 mb-3 fw-normal">Please give us feedback</h1>
+    <div class="mb-3">
+      <label for="inputName" class="visually-hidden">Name</label>
+      <input type="text" id="inputName" class="form-control" placeholder="Name" required autofocus>
+    </div>
+    <div class="mb-3">
+      <label for="inputEmail" class="visually-hidden">Email address</label>
+      <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required>
+    </div>
+    <div class="mb-3">
+      <label for="inputFeedback" class="visually-hidden">Text</label>
+      <textarea id="inputFeedback" class="form-control" placeholder="Text" required></textarea>
+    </div>
+    <div class="mb-3">
+      <label for="inputCategory" class="visually-hidden">Category</label>
+      <select id="inputCategory" class="form-select" multiple aria-label="multiple select example">
+        <option value="1" disabled>Application</option>
+        <option value="10" disabled>- Health</option>
+        <option value="11">-- Patients portal</option>
+        <option value="18">-- Doctors portal</option>
+        <option value="2" disabled>-- Remote visits portal</option>
+        <option value="6">--- Registration</option>
+        <option value="17">--- Virtual visit</option>
+        <option value="22" disabled>- Document management</option>
+        <option value="23">-- OpenKM</option>
+        <option value="29">-- Microsoft SharePoint</option>
+      </select>
+    </div>
+
+    <button class="w-100 btn btn-lg btn-primary" type="submit">Send</button>
+  </form>
+</div>
+
+</body>
+</html>
