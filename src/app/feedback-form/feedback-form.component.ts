@@ -15,6 +15,7 @@ export class FeedbackFormComponent {
   formService: FormService;
   // @ts-ignore
   form: Form;
+  submiteClick: boolean;
   // nameControl;
   // make subcategories for easier understanding
   healthCategory: any = ['-- Patients portal', '-- Doctors portal'];
@@ -26,6 +27,7 @@ export class FeedbackFormComponent {
     this.formService = formService;
     // @ts-ignore
     this.form = new Form();
+    this.submiteClick = false;
   }
 
   // this.nameControl = this.feedbackForm.get('name') as FormControl;
@@ -56,6 +58,7 @@ export class FeedbackFormComponent {
       console.log(this.form);
       this.feedbackForm.reset();
     }
+    this.submiteClick = true;
     // console.log(this.feedbackForm.value);
     // console.log(this.feedbackForm.get('email')?.value);
     // this.feedbackForm.reset();
@@ -95,6 +98,10 @@ export class FeedbackFormComponent {
   checkCategoryValidation(): boolean {
     // @ts-ignore
     return this.category().invalid && this.category().touched;
+  }
+
+  checkSubmitClicked(): boolean {
+    return this.submiteClick;
   }
 
   // tslint:disable-next-line:typedef use-lifecycle-interface
