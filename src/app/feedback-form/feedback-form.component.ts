@@ -2,7 +2,10 @@ import {Component, Inject} from '@angular/core';
 import {FormGroup, FormBuilder, FormControl, Validators, AbstractControl} from '@angular/forms';
 
 import { FormService } from '../form.service';
+import { FormDTO } from '../form-dto';
 import { Form } from '../form';
+// @ts-ignore
+import {Observable} from 'rxjs';
 
 @Component({
   selector: 'app-feedback-form',
@@ -10,24 +13,20 @@ import { Form } from '../form';
   styleUrls: ['./feedback-form.component.scss']
 })
 export class FeedbackFormComponent {
-
   feedbackForm: FormGroup;
   formService: FormService;
   // @ts-ignore
+
   form: Form;
-  submiteClick: boolean;
+  formDTO: FormDTO | undefined;
+  submitClick: boolean;
   // nameControl;
   // make subcategories for easier understanding
-  healthCategory: any = ['-- Patients portal', '-- Doctors portal'];
-  remoteCategory: any = ['--- Registration', '--- Virtual visit'];
-  documentCategory: any = ['-- OpenKM', '-- Microsoft SharePoint'];
-
   constructor(private formBuilder: FormBuilder, @Inject(FormService) formService: FormService) {
     this.feedbackForm = this.buildForm();
     this.formService = formService;
     // @ts-ignore
-    this.form = new Form();
-    this.submiteClick = false;
+    this.submitClick = false;
   }
 
   // this.nameControl = this.feedbackForm.get('name') as FormControl;
@@ -47,21 +46,21 @@ export class FeedbackFormComponent {
     });
   }
 
-  submitFeedbackForm(): void {
+  submitFeedbackForm(name: string, email: string, text: string, categories: string[]): void {
     // @ts-ignore
     if (this.name().valid && this.email().valid && this.text().valid && this.category().valid) {
-      this.form.name = this.name()?.value;
-      this.form.email = this.email()?.value;
-      this.form.text = this.text()?.value;
-      this.form.category = this.category()?.value;
-      this.formService.sendForm(this.form);
+      this.formDTO = {name, email, text, categories} as unknown as FormDTO;
+      console.log(categories);
+      console.log(typeof categories);
+      const a = categories;
+      console.log(a);
+      console.log(typeof a);
+      console.log(this.formDTO);
+      this.formService.sendForm(this.formDTO).subscribe(form => this.form = form);
       console.log(this.form);
-      this.feedbackForm.reset();
+      // this.feedbackForm.reset();
     }
-    this.submiteClick = true;
-    // console.log(this.feedbackForm.value);
-    // console.log(this.feedbackForm.get('email')?.value);
-    // this.feedbackForm.reset();
+    this.submitClick = true;
   }
 
   name(): AbstractControl | null {
@@ -101,12 +100,8 @@ export class FeedbackFormComponent {
   }
 
   checkSubmitClicked(): boolean {
-    return this.submiteClick;
+    return this.submitClick;
   }
 
-  // tslint:disable-next-line:typedef use-lifecycle-interface
-  // ngOnInit() {
-  //   console.log(formService.getHi());
-  // }
 
 }
