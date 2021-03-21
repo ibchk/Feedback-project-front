@@ -1,34 +1,53 @@
-<div class="form-feedback">
-  <form >
+  <form class="form-feedback" [formGroup]="feedbackForm" (ngSubmit)="submitFeedbackForm()">
     <h1 class="h3 mb-3 fw-normal">Please give us feedback</h1>
     <div class="mb-3">
       <label for="inputName" class="visually-hidden">Name</label>
-      <input type="text" id="inputName" class="form-control" placeholder="Name" required autofocus>
+      <input [class.is-invalid] = "checkNameValidation()" type="text" id="inputName" class="form-control" placeholder="Name" formControlName="name" required autofocus>
+      <div *ngIf="(checkNameValidation())">
+        <small class="text-danger">Name is required</small>
+      </div>
     </div>
     <div class="mb-3">
-      <label for="inputEmail" class="visually-hidden">Email address</label>
-      <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required>
+      <label for="inputEmail" class="visually-hidden" >Email address</label>
+      <input [class.is-invalid] = "checkEmailValidation()" type="email" id="inputEmail" class="form-control" placeholder="Email address" formControlName="email" required>
+      <div *ngIf="(checkEmailValidation())">
+        <small *ngIf="email()?.errors?.required" class="text-danger">Email is required</small>
+        <!--question mark(?) is a safe navigation operator-->
+        <small *ngIf="email()?.errors?.pattern" class="text-danger">Please provide a valid email address</small>
+      </div>
     </div>
     <div class="mb-3">
       <label for="inputFeedback" class="visually-hidden">Text</label>
-      <textarea id="inputFeedback" class="form-control" placeholder="Text" required></textarea>
+      <textarea [class.is-invalid] = "checkTextValidation()" id="inputFeedback" class="form-control" placeholder="Text" formControlName="text" required></textarea>
+      <div *ngIf="(checkTextValidation())">
+        <small class="text-danger">Text is required</small>
+      </div>
     </div>
     <div class="mb-3">
       <label for="inputCategory" class="visually-hidden">Category</label>
-      <select id="inputCategory" class="form-select" multiple aria-label="multiple select example">
+      <select [class.is-invalid] = "checkCategoryValidation()" id="inputCategory" class="form-select" multiple aria-label="multiple select example" formControlName="category">
         <option value="1" disabled>Application</option>
         <option value="10" disabled>- Health</option>
-        <option value="11">-- Patients portal</option>
-        <option value="18">-- Doctors portal</option>
+        <option *ngFor="let category of healthCategory" [ngValue]="category">{{category}}</option>
         <option value="2" disabled>-- Remote visits portal</option>
-        <option value="6">--- Registration</option>
-        <option value="17">--- Virtual visit</option>
+        <option *ngFor="let category of remoteCategory" [ngValue]="category">{{category}}</option>
         <option value="22" disabled>- Document management</option>
-        <option value="23">-- OpenKM</option>
-        <option value="29">-- Microsoft SharePoint</option>
+        <option *ngFor="let category of documentCategory" [ngValue]="category">{{category}}</option>
       </select>
+      <div *ngIf="(checkCategoryValidation())">
+        <small class="text-danger">Choose at least one category</small>
+      </div>
     </div>
-
-    <button class="w-100 btn btn-lg btn-primary" type="submit">Send</button>
+    <div>
+      <button class="w-100 btn btn-lg btn-primary" type="submit">Send</button>
+      <div>
+        <small *ngIf="((checkSubmitClicked()) &&(email()?.errors?.required || email()?.errors?.pattern || name()?.errors?.required || text()?.errors?.required || category()?.errors?.required))" class="text-danger">Fill all gaps</small>
+      </div>
+    </div>
   </form>
-</div>
+
+  <section>
+    <hr>
+    <h1>Developer's area</h1>
+    <pre>{{ feedbackForm.value | json}}</pre>
+  </section>

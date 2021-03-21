@@ -1,9 +1,22 @@
 import { Injectable } from '@angular/core';
 
-@Injectable({
-  providedIn: 'root'
-})
+import { Form } from './form';
+
+@Injectable()
 export class FormService {
 
-  constructor() { }
+  form: Form | undefined;
+
+  constructor() {}
+
+  // tslint:disable-next-line:typedef
+  getForm(){
+    return this.form;
+  }
+  // tslint:disable-next-line:typedef
+  sendForm(form: Form){
+    this.form = form;
+
+  }
+
 }
