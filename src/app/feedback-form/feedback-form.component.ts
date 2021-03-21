@@ -3,6 +3,7 @@ import {FormGroup, FormBuilder, FormControl, Validators, AbstractControl} from '
 
 import { FormService } from '../form.service';
 import { Form } from '../form';
+import {Observable} from 'rxjs';
 
 @Component({
   selector: 'app-feedback-form',
@@ -15,7 +16,12 @@ export class FeedbackFormComponent {
   formService: FormService;
   // @ts-ignore
   form: Form;
-  submiteClick: boolean;
+  newForm: Form[] | undefined;
+
+  answer: Form | undefined;
+
+
+  submitClick: boolean;
   // nameControl;
   // make subcategories for easier understanding
   healthCategory: any = ['-- Patients portal', '-- Doctors portal'];
@@ -25,9 +31,10 @@ export class FeedbackFormComponent {
   constructor(private formBuilder: FormBuilder, @Inject(FormService) formService: FormService) {
     this.feedbackForm = this.buildForm();
     this.formService = formService;
+    this.formService.getForm().subscribe(newForm => this.newForm = newForm);
     // @ts-ignore
     this.form = new Form();
-    this.submiteClick = false;
+    this.submitClick = false;
   }
 
   // this.nameControl = this.feedbackForm.get('name') as FormControl;
@@ -47,18 +54,22 @@ export class FeedbackFormComponent {
     });
   }
 
-  submitFeedbackForm(): void {
+  submitFeedbackForm(name: string, email: string, text: string, category: string[]): void {
     // @ts-ignore
     if (this.name().valid && this.email().valid && this.text().valid && this.category().valid) {
-      this.form.name = this.name()?.value;
-      this.form.email = this.email()?.value;
-      this.form.text = this.text()?.value;
-      this.form.category = this.category()?.value;
-      this.formService.sendForm(this.form);
-      console.log(this.form);
-      this.feedbackForm.reset();
+      const id = Number(1);
+      // this.form.name = this.name()?.value;
+      // this.form.email = this.email()?.value;
+      // this.form.text = this.text()?.value;
+      // this.form.category = this.category()?.value;
+      console.log('00000000000000');
+      this.formService.sendForm({id, name, email, text, category} as unknown as Form).subscribe(answer => this.answer = answer);
+      console.log('11111111111111');
+      console.log(this.newForm);
+      console.log('22222222222222');
+      // this.feedbackForm.reset();
     }
-    this.submiteClick = true;
+    this.submitClick = true;
     // console.log(this.feedbackForm.value);
     // console.log(this.feedbackForm.get('email')?.value);
     // this.feedbackForm.reset();
@@ -101,12 +112,8 @@ export class FeedbackFormComponent {
   }
 
   checkSubmitClicked(): boolean {
-    return this.submiteClick;
+    return this.submitClick;
   }
 
-  // tslint:disable-next-line:typedef use-lifecycle-interface
-  // ngOnInit() {
-  //   console.log(formService.getHi());
-  // }
 
 }
