@@ -2,7 +2,9 @@ import {Component, Inject} from '@angular/core';
 import {FormGroup, FormBuilder, FormControl, Validators, AbstractControl} from '@angular/forms';
 
 import { FormService } from '../form.service';
+import { FormDTO } from '../form-dto';
 import { Form } from '../form';
+// @ts-ignore
 import {Observable} from 'rxjs';
 
 @Component({
@@ -11,29 +13,19 @@ import {Observable} from 'rxjs';
   styleUrls: ['./feedback-form.component.scss']
 })
 export class FeedbackFormComponent {
-
   feedbackForm: FormGroup;
   formService: FormService;
   // @ts-ignore
+
   form: Form;
-  newForm: Form[] | undefined;
-
-  answer: Form | undefined;
-
-
+  formDTO: FormDTO | undefined;
   submitClick: boolean;
   // nameControl;
   // make subcategories for easier understanding
-  healthCategory: any = ['-- Patients portal', '-- Doctors portal'];
-  remoteCategory: any = ['--- Registration', '--- Virtual visit'];
-  documentCategory: any = ['-- OpenKM', '-- Microsoft SharePoint'];
-
   constructor(private formBuilder: FormBuilder, @Inject(FormService) formService: FormService) {
     this.feedbackForm = this.buildForm();
     this.formService = formService;
-    this.formService.getForm().subscribe(newForm => this.newForm = newForm);
     // @ts-ignore
-    this.form = new Form();
     this.submitClick = false;
   }
 
@@ -54,25 +46,21 @@ export class FeedbackFormComponent {
     });
   }
 
-  submitFeedbackForm(name: string, email: string, text: string, category: string[]): void {
+  submitFeedbackForm(name: string, email: string, text: string, categories: string[]): void {
     // @ts-ignore
     if (this.name().valid && this.email().valid && this.text().valid && this.category().valid) {
-      const id = Number(1);
-      // this.form.name = this.name()?.value;
-      // this.form.email = this.email()?.value;
-      // this.form.text = this.text()?.value;
-      // this.form.category = this.category()?.value;
-      console.log('00000000000000');
-      this.formService.sendForm({id, name, email, text, category} as unknown as Form).subscribe(answer => this.answer = answer);
-      console.log('11111111111111');
-      console.log(this.newForm);
-      console.log('22222222222222');
+      this.formDTO = {name, email, text, categories} as unknown as FormDTO;
+      console.log(categories);
+      console.log(typeof categories);
+      const a = categories;
+      console.log(a);
+      console.log(typeof a);
+      console.log(this.formDTO);
+      this.formService.sendForm(this.formDTO).subscribe(form => this.form = form);
+      console.log(this.form);
       // this.feedbackForm.reset();
     }
     this.submitClick = true;
-    // console.log(this.feedbackForm.value);
-    // console.log(this.feedbackForm.get('email')?.value);
-    // this.feedbackForm.reset();
   }
 
   name(): AbstractControl | null {
