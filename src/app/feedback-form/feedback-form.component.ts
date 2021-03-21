@@ -12,9 +12,8 @@ import { Form } from '../form';
 export class FeedbackFormComponent {
 
   feedbackForm: FormGroup;
+  formService: FormService;
   // @ts-ignore
-  forms = Form;
-
   form: Form;
   // nameControl;
   // make subcategories for easier understanding
@@ -24,10 +23,9 @@ export class FeedbackFormComponent {
 
   constructor(private formBuilder: FormBuilder, @Inject(FormService) formService: FormService) {
     this.feedbackForm = this.buildForm();
+    this.formService = formService;
     // @ts-ignore
-    this.forms = formService.getForms();
     this.form = new Form();
-    console.log(this.forms);
   }
 
   // this.nameControl = this.feedbackForm.get('name') as FormControl;
@@ -50,6 +48,12 @@ export class FeedbackFormComponent {
   submitFeedbackForm(): void {
     // @ts-ignore
     if (this.name().valid && this.email().valid && this.text().valid && this.category().valid) {
+      this.form.name = this.name()?.value;
+      this.form.email = this.email()?.value;
+      this.form.text = this.text()?.value;
+      this.form.category = this.category()?.value;
+      this.formService.sendForm(this.form);
+      console.log(this.form);
       this.feedbackForm.reset();
     }
     // console.log(this.feedbackForm.value);

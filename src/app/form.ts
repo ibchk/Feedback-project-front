@@ -1,6 +1,8 @@
+import {AbstractControl} from '@angular/forms';
+
 export class Form {
-  name?: null;
-  email?: string;
-  text?: string;
-  category?: string[];
+  name?: AbstractControl | null;
+  email?: AbstractControl | null;
+  text?: AbstractControl | null;
+  category?: AbstractControl | null;
 }
