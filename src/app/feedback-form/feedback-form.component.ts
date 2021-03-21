@@ -15,13 +15,7 @@ import {Observable} from 'rxjs';
 export class FeedbackFormComponent {
   feedbackForm: FormGroup;
   formService: FormService;
-  // @ts-ignore
-
-  form: Form;
-  formDTO: FormDTO | undefined;
   submitClick: boolean;
-  // nameControl;
-  // make subcategories for easier understanding
   constructor(private formBuilder: FormBuilder, @Inject(FormService) formService: FormService) {
     this.feedbackForm = this.buildForm();
     this.formService = formService;
@@ -29,12 +23,6 @@ export class FeedbackFormComponent {
     this.submitClick = false;
   }
 
-  // this.nameControl = this.feedbackForm.get('name') as FormControl;
-  // this.nameControl.setValue('Mark');
-  // tslint:disable-next-line:typedef
-  // getHealthCategory(){
-  //   return this.feedbackForm.get('name');
-  // }
   buildForm(): FormGroup {
     return this.formBuilder.group({
       name: new FormControl(null, Validators.required),
@@ -49,15 +37,7 @@ export class FeedbackFormComponent {
   submitFeedbackForm(name: string, email: string, text: string, categories: string[]): void {
     // @ts-ignore
     if (this.name().valid && this.email().valid && this.text().valid && this.category().valid) {
-      this.formDTO = {name, email, text, categories} as unknown as FormDTO;
-      console.log(categories);
-      console.log(typeof categories);
-      const a = categories;
-      console.log(a);
-      console.log(typeof a);
-      console.log(this.formDTO);
-      this.formService.sendForm(this.formDTO).subscribe(form => this.form = form);
-      console.log(this.form);
+      this.formService.sendForm({name, email, text, categories} as FormDTO).subscribe();
       // this.feedbackForm.reset();
     }
     this.submitClick = true;
