@@ -1,5 +1,8 @@
-import { Component } from '@angular/core';
+import {Component, Inject} from '@angular/core';
 import {FormGroup, FormBuilder, FormControl, Validators, AbstractControl} from '@angular/forms';
+
+import { FormService } from '../form.service';
+import { Form } from '../form';
 
 @Component({
   selector: 'app-feedback-form',
@@ -9,14 +12,22 @@ import {FormGroup, FormBuilder, FormControl, Validators, AbstractControl} from '
 export class FeedbackFormComponent {
 
   feedbackForm: FormGroup;
+  // @ts-ignore
+  forms = Form;
+
+  form: Form;
   // nameControl;
   // make subcategories for easier understanding
   healthCategory: any = ['-- Patients portal', '-- Doctors portal'];
   remoteCategory: any = ['--- Registration', '--- Virtual visit'];
   documentCategory: any = ['-- OpenKM', '-- Microsoft SharePoint'];
 
-  constructor(private formBuilder: FormBuilder) {
+  constructor(private formBuilder: FormBuilder, @Inject(FormService) formService: FormService) {
     this.feedbackForm = this.buildForm();
+    // @ts-ignore
+    this.forms = formService.getForms();
+    this.form = new Form();
+    console.log(this.forms);
   }
 
   // this.nameControl = this.feedbackForm.get('name') as FormControl;
@@ -26,7 +37,7 @@ export class FeedbackFormComponent {
   //   return this.feedbackForm.get('name');
   // }
   buildForm(): FormGroup {
-    return  this.formBuilder.group({
+    return this.formBuilder.group({
       name: new FormControl(null, Validators.required),
       email: new FormControl(null, [
         Validators.required,
@@ -35,9 +46,10 @@ export class FeedbackFormComponent {
       category: new FormControl(null, Validators.required)
     });
   }
+
   submitFeedbackForm(): void {
     // @ts-ignore
-    if (this.name().valid && this.email().valid && this.text().valid && this.category().valid){
+    if (this.name().valid && this.email().valid && this.text().valid && this.category().valid) {
       this.feedbackForm.reset();
     }
     // console.log(this.feedbackForm.value);
@@ -45,40 +57,45 @@ export class FeedbackFormComponent {
     // this.feedbackForm.reset();
   }
 
-  name(): AbstractControl | null{
+  name(): AbstractControl | null {
     return this.feedbackForm.get('name');
   }
 
-  email(): AbstractControl | null{
+  email(): AbstractControl | null {
     return this.feedbackForm.get('email');
   }
 
-  text(): AbstractControl | null{
+  text(): AbstractControl | null {
     return this.feedbackForm.get('text');
   }
 
-  category(): AbstractControl | null{
+  category(): AbstractControl | null {
     return this.feedbackForm.get('category');
   }
 
-  checkNameValidation(): boolean{
+  checkNameValidation(): boolean {
     // @ts-ignore
     return this.name().invalid && this.name().touched;
   }
 
-  checkEmailValidation(): boolean{
+  checkEmailValidation(): boolean {
     // @ts-ignore
     return this.email().invalid && this.email().touched;
   }
 
-  checkTextValidation(): boolean{
+  checkTextValidation(): boolean {
     // @ts-ignore
     return this.text().invalid && this.text().touched;
   }
 
-  checkCategoryValidation(): boolean{
+  checkCategoryValidation(): boolean {
     // @ts-ignore
     return this.category().invalid && this.category().touched;
   }
+
+  // tslint:disable-next-line:typedef use-lifecycle-interface
+  // ngOnInit() {
+  //   console.log(formService.getHi());
+  // }
 
 }
