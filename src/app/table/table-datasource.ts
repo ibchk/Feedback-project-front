@@ -15,8 +15,8 @@ import {FormDTO} from '../form-dto';
  */
 export class TableDataSource extends DataSource<Form> {
   data: FormDTO[];
-  paginator: MatPaginator | undefined;
-  sort: MatSort | undefined;
+  paginator?: MatPaginator;
+  sort?: MatSort;
 
   constructor(feedbackList: Form[]) {
     super();

@@ -12,6 +12,7 @@ import { Form } from './form';
 export class FormService {
 
   url = 'api/form';
+  updateNeed = true;
 
 
   httpOptions = {
@@ -26,6 +27,7 @@ export class FormService {
   }
   // tslint:disable-next-line:typedef
   sendForm(form: FormDTO): Observable<Form>{
+    this.updateNeed = true;
     return this.http.post<Form>(this.url, form, this.httpOptions);
   }
 
