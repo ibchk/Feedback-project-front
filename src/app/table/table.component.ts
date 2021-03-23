@@ -34,4 +34,14 @@ export class TableComponent implements AfterViewInit {
     this.dataSource.paginator = this.paginator;
     this.table.dataSource = this.dataSource;
   }
+
+  updateTable(): void {
+    this.formService.getForms().subscribe(feedbacks => this.feedbackList = feedbacks);
+    this.dataSource.updateTable(this.feedbackList);
+  }
+
+  // tslint:disable-next-line:typedef use-lifecycle-interface
+  ngDoCheck(){
+    this.updateTable();
+  }
 }
