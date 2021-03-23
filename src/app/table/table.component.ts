@@ -45,6 +45,7 @@ export class TableComponent implements AfterViewInit {
         this.tableSize = this.feedbackList.length;
         this.dataSource.updateTable(this.feedbackList);
         this.paginator._changePageSize(this.paginator.pageSize);
+        this.formService.updateNeed = false;
       }
     }
   }

@@ -69,14 +69,23 @@ export class TableDataSource extends DataSource<Form> {
     if (!this.sort || !this.sort.active || this.sort.direction === '') {
       return data;
     }
-    return data;
-    // return data.sort((a, b) => {
-    //   const isAsc = this.sort?.direction === 'asc';
-    //   switch (this.sort?.active) {
-    //     case 'name': return compare(a.id, b.id, isAsc);
-    //     default: return 0;
-    //   }
-    // });
+    return data.sort((a, b) => {
+      const isAsc = this.sort?.direction === 'asc';
+      switch (this.sort?.active) {
+        case '#':
+          return compare(a.id, b.id, isAsc);
+        case 'Name':
+          return compare(a.name, b.name, isAsc);
+        case 'Email':
+          return compare(a.email, b.email, isAsc);
+        case 'Category':
+          return compare(a.categoryList, b.categoryList, isAsc);
+        case 'Text':
+          return compare(a.text, b.text, isAsc);
+        default:
+          return 0;
+      }
+    });
   }
 
   // tslint:disable-next-line:typedef
@@ -86,7 +95,7 @@ export class TableDataSource extends DataSource<Form> {
 }
 
 /** Simple sort comparator for example ID/Name columns (for client-side sorting). */
-function compare(a: number | undefined, b: number | undefined, isAsc: boolean): number {
+function compare(a: number | string | string[] | undefined, b: number | string | string[] | undefined, isAsc: boolean): number {
   // @ts-ignore
   return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
 }

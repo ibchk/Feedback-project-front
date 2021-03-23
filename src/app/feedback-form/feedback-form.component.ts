@@ -44,7 +44,7 @@ export class FeedbackFormComponent {
       this.formService.sendForm({name, email, text, categories} as FormDTO).subscribe();
       console.log(this.formService.getForms().subscribe(forms => this.forms = forms));
       console.log(this.forms);
-      // this.feedbackForm.reset();
+      this.feedbackForm.reset();
     }
     this.submitClick = true;
   }
