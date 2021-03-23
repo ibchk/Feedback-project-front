@@ -1,11 +1,13 @@
 import {Component, Inject} from '@angular/core';
 import {FormGroup, FormBuilder, FormControl, Validators, AbstractControl} from '@angular/forms';
 
-import { FormService } from '../form.service';
-import { FormDTO } from '../form-dto';
-import { Form } from '../form';
+import {FormService} from '../form.service';
+import {FormDTO} from '../form-dto';
 // @ts-ignore
 import {Observable} from 'rxjs';
+import {TableComponent} from '../table/table.component';
+import {Form} from '../form';
+
 
 @Component({
   selector: 'app-feedback-form',
@@ -16,6 +18,8 @@ export class FeedbackFormComponent {
   feedbackForm: FormGroup;
   formService: FormService;
   submitClick: boolean;
+  forms: FormDTO[] = [];
+
   constructor(private formBuilder: FormBuilder, @Inject(FormService) formService: FormService) {
     this.feedbackForm = this.buildForm();
     this.formService = formService;
@@ -38,6 +42,8 @@ export class FeedbackFormComponent {
     // @ts-ignore
     if (this.name().valid && this.email().valid && this.text().valid && this.category().valid) {
       this.formService.sendForm({name, email, text, categories} as FormDTO).subscribe();
+      console.log(this.formService.getForms().subscribe(forms => this.forms = forms));
+      console.log(this.forms);
       // this.feedbackForm.reset();
     }
     this.submitClick = true;

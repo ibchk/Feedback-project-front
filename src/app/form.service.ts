@@ -6,7 +6,6 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 import { FormDTO } from './form-dto';
 import { Form } from './form';
 
-
 @Injectable({
   providedIn: 'root'
 })
@@ -22,7 +21,7 @@ export class FormService {
   constructor(private http: HttpClient) {}
 
   // tslint:disable-next-line:typedef
-  getForm(): Observable<FormDTO[]> {
+  getForms(): Observable<FormDTO[]> {
     return this.http.get<FormDTO[]>(this.url);
   }
   // tslint:disable-next-line:typedef
