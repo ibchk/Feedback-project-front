@@ -1,27 +1,24 @@
-# FeedbackProjectFront
+# Feedback form
+* This is a simple web-based feedback form.
+## Setup guide
+* Clone back-end and front-end projects to your IDE.
+* Front-end:https://github.com/ibchk/Feedback-project-front
+* Back-end: https://github.com/ibchk/Feedback-project-back
+* Run back-end by running FeedbackApplication under form.feedback .
+* Run front-end by writing in terminal "ng run" (if it doesnt work, install npm)
+* Open http://localhost:4200 in your browser.
+## Form guide
+* Fill the gaps in the form.
+* Send your feedback.
+* Your review will be automatically displayed in the table.
+* Tap to the table header to sort table contents.
+## Built with 
+- Java 11.0.8
+- HTML
+- TypeScript
+- CSS
+- Angular 11.2.4
+- Spring Boot 2.4.3
+- H2 database
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 11.2.4.
-
-## Development server
-
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
-
-## Code scaffolding
-
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
-
-## Build
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+### More about me and my projects: https://github.com/ibchk
