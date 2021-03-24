@@ -26,7 +26,7 @@ export class TableComponent implements AfterViewInit {
     this.tableSize = this.feedbackList.length;
   }
 
-  /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
+  /** Names of the columns in table. */
   displayedColumns = ['#', 'Name', 'Email', 'Category', 'Text'];
   formService: FormService;
   feedbackList: FormDTO[];
@@ -37,21 +37,23 @@ export class TableComponent implements AfterViewInit {
     this.table.dataSource = this.dataSource;
   }
 
+  /** updates table by getting new feedbacks from database. */
   updateTable(): void {
-    if (this.formService.updateNeed) {
-      this.formService.getForms().subscribe(feedbacks => this.feedbackList = feedbacks);
-      // @ts-ignore
-      if (this.tableSize < this.feedbackList.length){
-        this.tableSize = this.feedbackList.length;
-        this.dataSource.updateTable(this.feedbackList);
-        this.paginator._changePageSize(this.paginator.pageSize);
-        this.formService.updateNeed = false;
-      }
+    this.formService.getForms().subscribe(feedbacks => this.feedbackList = feedbacks);
+    // @ts-ignore
+    if (this.tableSize < this.feedbackList.length) {
+      this.tableSize = this.feedbackList.length;
+      this.dataSource.updateTable(this.feedbackList);
+      this.paginator._changePageSize(this.paginator.pageSize);
+      this.formService.updateNeed = false;
     }
   }
 
+  /** Here we always check, if the update needed. */
   // tslint:disable-next-line:typedef use-lifecycle-interface
-  ngDoCheck(){
-    this.updateTable();
+  ngDoCheck() {
+    if (this.formService.updateNeed) {
+      this.updateTable();
+    }
   }
 }

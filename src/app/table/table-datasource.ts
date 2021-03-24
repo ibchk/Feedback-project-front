@@ -6,8 +6,6 @@ import {Observable, of as observableOf, merge} from 'rxjs';
 import {Form} from '../form';
 import {FormDTO} from '../form-dto';
 
-// TODO: replace this with real data from your application
-
 /**
  * Data source for the Table view. This class should
  * encapsulate all logic for fetching and manipulating the displayed data
@@ -41,16 +39,11 @@ export class TableDataSource extends DataSource<Form> {
     }
   }
 
-  /**
-   *  Called when the table is being destroyed. Use this function, to clean up
-   * any open connections or free any held resources that were set up during connect.
-   */
   disconnect(): void {
   }
 
   /**
-   * Paginate the data (client-side). If you're using server-side pagination,
-   * this would be replaced by requesting the appropriate data from the server.
+   * Paginate the data (client-side).
    */
   private getPagedData(data: Form[]): Form[] {
     if (this.paginator) {
@@ -62,8 +55,7 @@ export class TableDataSource extends DataSource<Form> {
   }
 
   /**
-   * Sort the data (client-side). If you're using server-side sorting,
-   * this would be replaced by requesting the appropriate data from the server.
+   * Sort the data (client-side).
    */
   private getSortedData(data: Form[]): Form[] {
     if (!this.sort || !this.sort.active || this.sort.direction === '') {
@@ -94,7 +86,7 @@ export class TableDataSource extends DataSource<Form> {
   }
 }
 
-/** Simple sort comparator for example ID/Name columns (for client-side sorting). */
+/** Sort comparator */
 function compare(a: number | string | string[] | undefined, b: number | string | string[] | undefined, isAsc: boolean): number {
   // @ts-ignore
   return (a < b ? -1 : 1) * (isAsc ? 1 : -1);

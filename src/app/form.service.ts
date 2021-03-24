@@ -25,10 +25,10 @@ export class FormService {
   getForms(): Observable<FormDTO[]> {
     return this.http.get<FormDTO[]>(this.url);
   }
-  // tslint:disable-next-line:typedef
-  sendForm(form: FormDTO): Observable<Form>{
+  // @ts-ignore
+  sendForm(form: FormDTO): Observable<FormDTO>{
     this.updateNeed = true;
-    return this.http.post<Form>(this.url, form, this.httpOptions);
+    return this.http.post<FormDTO>(this.url, form, this.httpOptions);
   }
 
 }

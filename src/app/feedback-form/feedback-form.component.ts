@@ -27,6 +27,7 @@ export class FeedbackFormComponent {
     this.submitClick = false;
   }
 
+  /** Builds a form and gives a validation rules to it fields. */
   buildForm(): FormGroup {
     return this.formBuilder.group({
       name: new FormControl(null, Validators.required),
@@ -38,56 +39,64 @@ export class FeedbackFormComponent {
     });
   }
 
+  // tslint:disable-next-line:jsdoc-format
+  /** submit feedback in database*/
   submitFeedbackForm(name: string, email: string, text: string, categories: string[]): void {
+    this.submitClick = true;
     // @ts-ignore
     if (this.name().valid && this.email().valid && this.text().valid && this.category().valid) {
       this.formService.sendForm({name, email, text, categories} as FormDTO).subscribe();
-      console.log(this.formService.getForms().subscribe(forms => this.forms = forms));
-      console.log(this.forms);
       this.feedbackForm.reset();
+      this.submitClick = false;
     }
-    this.submitClick = true;
   }
 
+  /** Getter for name. */
   name(): AbstractControl | null {
     return this.feedbackForm.get('name');
   }
 
+  /** Getter for email. */
   email(): AbstractControl | null {
     return this.feedbackForm.get('email');
   }
 
+  /** Getter for name. */
   text(): AbstractControl | null {
     return this.feedbackForm.get('text');
   }
 
+  /** Getter for category. */
   category(): AbstractControl | null {
     return this.feedbackForm.get('category');
   }
 
+  /** Checking name validation. */
   checkNameValidation(): boolean {
     // @ts-ignore
     return this.name().invalid && this.name().touched;
   }
 
+  /** Checking email validation. */
   checkEmailValidation(): boolean {
     // @ts-ignore
     return this.email().invalid && this.email().touched;
   }
 
+  /** Checking text validation. */
   checkTextValidation(): boolean {
     // @ts-ignore
     return this.text().invalid && this.text().touched;
   }
 
+  /** Checking category validation. */
   checkCategoryValidation(): boolean {
     // @ts-ignore
     return this.category().invalid && this.category().touched;
   }
 
+  /** Checking submit validation. */
   checkSubmitClicked(): boolean {
     return this.submitClick;
   }
-
-
 }
