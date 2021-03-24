@@ -31,6 +31,7 @@ export class TableComponent implements AfterViewInit {
   formService: FormService;
   feedbackList: FormDTO[];
 
+  /** Add data source to MatTable */
   ngAfterViewInit(): void {
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
@@ -49,7 +50,7 @@ export class TableComponent implements AfterViewInit {
     }
   }
 
-  /** Here we always check, if the update needed. */
+  /** Here we always check, if the table update is needed. */
   // tslint:disable-next-line:typedef use-lifecycle-interface
   ngDoCheck() {
     if (this.formService.updateNeed) {

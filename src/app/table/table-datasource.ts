@@ -7,7 +7,7 @@ import {Form} from '../form';
 import {FormDTO} from '../form-dto';
 
 /**
- * Data source for the Table view. This class should
+ * Data Source for the Table view. This class should
  * encapsulate all logic for fetching and manipulating the displayed data
  * (including sorting, pagination, and filtering).
  */
@@ -28,8 +28,6 @@ export class TableDataSource extends DataSource<Form> {
    */
   connect(): Observable<Form[]> {
     if (this.paginator && this.sort) {
-      // Combine everything that affects the rendered data into one update
-      // stream for the data-table to consume.
       return merge(observableOf(this.data), this.paginator.page, this.sort.sortChange)
         .pipe(map(() => {
           return this.getPagedData(this.getSortedData([...this.data]));
@@ -80,13 +78,18 @@ export class TableDataSource extends DataSource<Form> {
     });
   }
 
+  /**
+   * Update the data.
+   */
   // tslint:disable-next-line:typedef
   public updateTable(data: Form[]) {
     this.data = data;
   }
 }
 
-/** Sort comparator */
+/**
+ * Sort comparator for numbers, strings and arrays.
+ */
 function compare(a: number | string | string[] | undefined, b: number | string | string[] | undefined, isAsc: boolean): number {
   // @ts-ignore
   return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
