@@ -1,12 +1,10 @@
 import {Component, Inject} from '@angular/core';
-import {FormGroup, FormBuilder, FormControl, Validators, AbstractControl} from '@angular/forms';
+import {FormGroup, FormBuilder, FormControl, Validators, AbstractControl, ValidationErrors} from '@angular/forms';
 
 import {FormService} from '../form.service';
 import {FormDTO} from '../form-dto';
 // @ts-ignore
 import {Observable} from 'rxjs';
-import {TableComponent} from '../table/table.component';
-import {Form} from '../form';
 
 
 @Component({
@@ -27,10 +25,13 @@ export class FeedbackFormComponent {
     this.submitClick = false;
   }
 
-  /** Builds a form and gives a validation rules to it fields. */
+  /**
+   * Builds a form and gives a validation rules to it fields.
+   */
   buildForm(): FormGroup {
     return this.formBuilder.group({
-      name: new FormControl(null, Validators.required),
+      // @ts-ignore
+      name: new FormControl(null, [Validators.required]),
       email: new FormControl(null, [
         Validators.required,
         Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')]),

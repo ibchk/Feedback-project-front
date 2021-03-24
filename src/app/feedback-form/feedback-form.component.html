@@ -1,32 +1,43 @@
 <form class="form-feedback" [formGroup]="feedbackForm"
       (ngSubmit)="submitFeedbackForm(this.name()?.value, this.email()?.value, this.text()?.value, this.category()?.value)">
   <h1 class="h3 mb-3 fw-normal">Please give us feedback</h1>
+
+  <!--  Name field  -->
   <div class="mb-3">
     <label for="inputName" class="visually-hidden">Name</label>
     <input [class.is-invalid]="checkNameValidation()" type="text" id="inputName" class="form-control" placeholder="Name"
            formControlName="name" required autofocus>
+    <!--  Error check  -->
     <div *ngIf="(checkNameValidation())">
       <small class="text-danger">Name is required</small>
     </div>
   </div>
+
+  <!--  Email field  -->
   <div class="mb-3">
     <label for="inputEmail" class="visually-hidden">Email address</label>
     <input [class.is-invalid]="checkEmailValidation()" type="email" id="inputEmail" class="form-control"
            placeholder="Email address" formControlName="email" required>
+    <!--  Error check  -->
     <div *ngIf="(checkEmailValidation())">
       <small *ngIf="email()?.errors?.required" class="text-danger">Email is required</small>
       <!--question mark(?) is a safe navigation operator-->
       <small *ngIf="email()?.errors?.pattern" class="text-danger">Please provide a valid email address</small>
     </div>
   </div>
+
+  <!--  Text field  -->
   <div class="mb-3">
     <label for="inputFeedback" class="visually-hidden">Text</label>
     <textarea [class.is-invalid]="checkTextValidation()" id="inputFeedback" class="form-control" placeholder="Text"
               formControlName="text" required></textarea>
+    <!--  Error check  -->
     <div *ngIf="(checkTextValidation())">
       <small class="text-danger">Text is required</small>
     </div>
   </div>
+
+  <!-- Category selector -->
   <div class="mb-3">
     <label for="inputCategory" class="visually-hidden">Category</label>
     <select [class.is-invalid]="checkCategoryValidation()" id="inputCategory" class="form-select" multiple
@@ -42,12 +53,16 @@
       <option value="23">-- OpenKM</option>
       <option value="29">-- Microsoft SharePoint</option>
     </select>
+    <!--  Error check  -->
     <div *ngIf="(checkCategoryValidation())">
       <small class="text-danger">Choose at least one category</small>
     </div>
   </div>
+
+  <!--  Send button  -->
   <div>
     <button class="w-100 btn btn-lg btn-primary" type="submit">Send</button>
+    <!--  Error check  -->
     <div>
       <small
         *ngIf="((checkSubmitClicked()) &&(email()?.errors?.required || email()?.errors?.pattern || name()?.errors?.required || text()?.errors?.required || category()?.errors?.required))"

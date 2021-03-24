@@ -1,6 +1,6 @@
 import {AbstractControl} from '@angular/forms';
 // @ts-ignore
-import { Category } from './category';
+import {Category} from './category';
 
 export class Form {
   id?: number;
