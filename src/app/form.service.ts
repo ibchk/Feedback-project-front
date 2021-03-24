@@ -6,13 +6,13 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 import { FormDTO } from './form-dto';
 import { Form } from './form';
 
-
 @Injectable({
   providedIn: 'root'
 })
 export class FormService {
 
   url = 'api/form';
+  updateNeed = true;
 
 
   httpOptions = {
@@ -22,18 +22,13 @@ export class FormService {
   constructor(private http: HttpClient) {}
 
   // tslint:disable-next-line:typedef
-
-  getForm(): Observable<FormDTO[]> {
+  getForms(): Observable<FormDTO[]> {
     return this.http.get<FormDTO[]>(this.url);
   }
-  // tslint:disable-next-line:typedef
-  sendForm(form: FormDTO): Observable<Form>{
-    console.log(form);
-    console.log(form.name);
-    console.log(form.email);
-    console.log(form.text);
-    console.log(form.categories);
-    return this.http.post<Form>(this.url, form, this.httpOptions);
+  // @ts-ignore
+  sendForm(form: FormDTO): Observable<FormDTO>{
+    this.updateNeed = true;
+    return this.http.post<FormDTO>(this.url, form, this.httpOptions);
   }
 
 }

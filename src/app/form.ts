@@ -7,5 +7,5 @@ export class Form {
   name?: string;
   email?: string;
   text?: string;
-  categories?: string[];
+  categoryList?: string[];
 }

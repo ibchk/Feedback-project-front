@@ -1,11 +1,13 @@
 import {Component, Inject} from '@angular/core';
 import {FormGroup, FormBuilder, FormControl, Validators, AbstractControl} from '@angular/forms';
 
-import { FormService } from '../form.service';
-import { FormDTO } from '../form-dto';
-import { Form } from '../form';
+import {FormService} from '../form.service';
+import {FormDTO} from '../form-dto';
 // @ts-ignore
 import {Observable} from 'rxjs';
+import {TableComponent} from '../table/table.component';
+import {Form} from '../form';
+
 
 @Component({
   selector: 'app-feedback-form',
@@ -15,13 +17,9 @@ import {Observable} from 'rxjs';
 export class FeedbackFormComponent {
   feedbackForm: FormGroup;
   formService: FormService;
-  // @ts-ignore
-
-  form: Form;
-  formDTO: FormDTO | undefined;
   submitClick: boolean;
-  // nameControl;
-  // make subcategories for easier understanding
+  forms: FormDTO[] = [];
+
   constructor(private formBuilder: FormBuilder, @Inject(FormService) formService: FormService) {
     this.feedbackForm = this.buildForm();
     this.formService = formService;
@@ -29,12 +27,7 @@ export class FeedbackFormComponent {
     this.submitClick = false;
   }
 
-  // this.nameControl = this.feedbackForm.get('name') as FormControl;
-  // this.nameControl.setValue('Mark');
-  // tslint:disable-next-line:typedef
-  // getHealthCategory(){
-  //   return this.feedbackForm.get('name');
-  // }
+  /** Builds a form and gives a validation rules to it fields. */
   buildForm(): FormGroup {
     return this.formBuilder.group({
       name: new FormControl(null, Validators.required),
@@ -46,62 +39,64 @@ export class FeedbackFormComponent {
     });
   }
 
+  // tslint:disable-next-line:jsdoc-format
+  /** submit feedback in database*/
   submitFeedbackForm(name: string, email: string, text: string, categories: string[]): void {
+    this.submitClick = true;
     // @ts-ignore
     if (this.name().valid && this.email().valid && this.text().valid && this.category().valid) {
-      this.formDTO = {name, email, text, categories} as unknown as FormDTO;
-      console.log(categories);
-      console.log(typeof categories);
-      const a = categories;
-      console.log(a);
-      console.log(typeof a);
-      console.log(this.formDTO);
-      this.formService.sendForm(this.formDTO).subscribe(form => this.form = form);
-      console.log(this.form);
-      // this.feedbackForm.reset();
+      this.formService.sendForm({name, email, text, categories} as FormDTO).subscribe();
+      this.feedbackForm.reset();
+      this.submitClick = false;
     }
-    this.submitClick = true;
   }
 
+  /** Getter for name. */
   name(): AbstractControl | null {
     return this.feedbackForm.get('name');
   }
 
+  /** Getter for email. */
   email(): AbstractControl | null {
     return this.feedbackForm.get('email');
   }
 
+  /** Getter for name. */
   text(): AbstractControl | null {
     return this.feedbackForm.get('text');
   }
 
+  /** Getter for category. */
   category(): AbstractControl | null {
     return this.feedbackForm.get('category');
   }
 
+  /** Checking name validation. */
   checkNameValidation(): boolean {
     // @ts-ignore
     return this.name().invalid && this.name().touched;
   }
 
+  /** Checking email validation. */
   checkEmailValidation(): boolean {
     // @ts-ignore
     return this.email().invalid && this.email().touched;
   }
 
+  /** Checking text validation. */
   checkTextValidation(): boolean {
     // @ts-ignore
     return this.text().invalid && this.text().touched;
   }
 
+  /** Checking category validation. */
   checkCategoryValidation(): boolean {
     // @ts-ignore
     return this.category().invalid && this.category().touched;
   }
 
+  /** Checking submit validation. */
   checkSubmitClicked(): boolean {
     return this.submitClick;
   }
-
-
 }
