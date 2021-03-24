@@ -39,6 +39,7 @@
 
   <!--  Paginator for client to change table parameters  -->
   <mat-paginator #paginator
+                 [length]="dataSource?.data?.length"
                  [pageIndex]="0"
                  [pageSize]="5">
   </mat-paginator>

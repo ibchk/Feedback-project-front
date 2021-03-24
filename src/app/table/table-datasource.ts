@@ -1,16 +1,43 @@
+import {DataSource} from '@angular/cdk/collections';
+import {MatPaginator} from '@angular/material/paginator';
+import {MatSort} from '@angular/material/sort';
+import {map} from 'rxjs/operators';
+import {Observable, of as observableOf, merge} from 'rxjs';
 import {Form} from '../form';
-import {MatTableDataSource} from '@angular/material/table';
+import {FormDTO} from '../form-dto';
 
 /**
  * Data Source for the Table view. This class should
  * encapsulate all logic for fetching and manipulating the displayed data
  * (including sorting, pagination, and filtering).
  */
-export class TableDataSource extends MatTableDataSource<Form> {
+export class TableDataSource extends DataSource<Form> {
+  data: FormDTO[];
+  paginator?: MatPaginator;
+  sort?: MatSort;
 
   constructor(feedbackList: Form[]) {
     super();
     this.data = feedbackList;
+  }
+
+  /**
+   * Connect this data source to the table. The table will only update when
+   * the returned stream emits new items.
+   * @returns A stream of the items to be rendered.
+   */
+  connect(): Observable<Form[]> {
+    if (this.paginator && this.sort) {
+      return merge(observableOf(this.data), this.paginator.page, this.sort.sortChange)
+        .pipe(map(() => {
+          return this.getPagedData(this.getSortedData([...this.data]));
+        }));
+    } else {
+      throw Error('Please set the paginator and sort on the data source before connecting.');
+    }
+  }
+
+  disconnect(): void {
   }
 
   /**
