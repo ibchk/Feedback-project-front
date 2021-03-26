@@ -5,7 +5,7 @@
 * Front-end:https://github.com/ibchk/Feedback-project-front
 * Back-end: https://github.com/ibchk/Feedback-project-back
 * Run back-end by running FeedbackApplication under form.feedback .
-* Run front-end by writing in terminal "ng run" (if it doesnt work, install npm)
+* Run front-end by writing in terminal "ng serve" (if it doesnt work, install npm)
 * Open http://localhost:4200 in your browser.
 ## Form guide
 * Fill the gaps in the form.
